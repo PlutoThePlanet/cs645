@@ -32,6 +32,7 @@ public class Main {
             nodeSampling_marking(branch4, pkt, packets);
         }
         node_path_reconstruction(packets);
+        // display and compare to desired branch (print just the first 5 nodes or something)
         packets.clear(); // reset/clear all sent packets
         
         
@@ -69,7 +70,7 @@ public class Main {
                 nodeTbl.put(z, 1);            // else insert into nodeTbl
             }
         }
-        nodeTbl.remove(0); // remove the unmarked routers
+        nodeTbl.remove(1001); // remove the unmarked routers
         Map<Integer, Integer> sortedNodeTbl = sortByValue(nodeTbl, false); // sort by descending order
         System.out.println(sortedNodeTbl);
     }
@@ -92,12 +93,15 @@ public class Main {
     }
 
     public static void edge_path_reconstruction(ArrayList<Packet> packets){
-        // let G be a tree with root v  // let edges in G be tuples (start, end, distance)
-        // for each packet w
-            // if pkt.distance = 0 then
+        Node root = new Node();
+        Tree tree = new Tree(root);
+        for(int i=0; i<packets.size(); i++){        // for each packet w
+            if(packets.get(i).getDistance() == 0){  // if pkt.distance = 0 then
                 // insert edge (pkt.start, v, 0) into G
-            // else
+            }else{
                 // insert edge (w.start, w.end, w.distance) into G
+            }
+        }
         // remove any edge (x,y,d) with d != distance from x to v in G
         // get path
     }

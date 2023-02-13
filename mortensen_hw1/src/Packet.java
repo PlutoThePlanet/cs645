@@ -5,10 +5,10 @@ public class Packet{
     private Integer distance;
 
     public Packet(){
-        this.node = 0;
-        this.start = 0;
-        this.end = 0;
-        this.distance = 0;
+        this.node = 1001; // 1001 = "unmarked"
+        this.start = 1001;
+        this.end = 1001;
+        this.distance = 1001;
     }
 
     public int getNode(){
