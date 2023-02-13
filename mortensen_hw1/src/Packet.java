@@ -5,10 +5,10 @@ public class Packet{
     private Integer distance;
 
     public Packet(){
-        this.node = null;
-        this.start = null;
-        this.end = null;
-        this.distance = null;
+        this.node = 0;
+        this.start = 0;
+        this.end = 0;
+        this.distance = 0;
     }
 
     public int getNode(){

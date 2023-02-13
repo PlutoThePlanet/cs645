@@ -92,7 +92,14 @@ public class Main {
     }
 
     public static void edge_path_reconstruction(ArrayList<Packet> packets){
-
+        // let G be a tree with root v  // let edges in G be tuples (start, end, distance)
+        // for each packet w
+            // if pkt.distance = 0 then
+                // insert edge (pkt.start, v, 0) into G
+            // else
+                // insert edge (w.start, w.end, w.distance) into G
+        // remove any edge (x,y,d) with d != distance from x to v in G
+        // get path
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
