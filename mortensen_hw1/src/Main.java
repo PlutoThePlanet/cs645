@@ -31,16 +31,13 @@ public class Main {
             nodeSampling_marking(branch4, pkt, packets);
         }
         node_path_reconstruction();
+        packets.clear(); // reset/clear all sent packets
 
         // for(){
         //     edgeSampling_marking();
         // }
         // edge_path_reconstruction();
     }
-
-    // public static int getRandomNumber(int min, int max) {
-    //     return (int) ((Math.random() * (max - min)) + min);
-    // }
 
     public static void nodeSampling_marking(int branch[], Packet pkt, ArrayList<Packet> packets){
         for(int i=0; i<branch.length; i++){         // for each node/router in the branch
