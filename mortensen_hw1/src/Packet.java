@@ -1,5 +1,5 @@
 public class Packet{
-    private int node;
+    private Integer node;
 
     public Packet(){
         this.node = 0;
