@@ -33,11 +33,20 @@ public class Main {
         }
         node_path_reconstruction(packets);
         packets.clear(); // reset/clear all sent packets
-
-        // for(){
-        //     edgeSampling_marking();
-        // }
-        // edge_path_reconstruction();
+        
+        
+        for(int i=0; i<num_pkts; i++){ // each branch is sending the same num of pkts through,
+            Packet pkt = new Packet();
+            edgeSampling_marking(branch1, pkt, packets);
+            edgeSampling_marking(branch2, pkt, packets);
+            edgeSampling_marking(branch3, pkt, packets);
+            edgeSampling_marking(branch5, pkt, packets);
+        }
+        for(int i=0; i<num_pkts*x; i++){ // but the "attacker branch" will be sending a lot more pkts
+            Packet pkt = new Packet();
+            edgeSampling_marking(branch4, pkt, packets);
+        }
+        edge_path_reconstruction(packets);
     }
 
     public static void nodeSampling_marking(Integer branch[], Packet pkt, ArrayList<Packet> packets){
@@ -66,11 +75,23 @@ public class Main {
     }
 
 
-    public static void edgeSampling_marking(){
-
+    public static void edgeSampling_marking(Integer branch[], Packet pkt, ArrayList<Packet> packets){
+        for(int i=0; i<branch.length; i++){             // for each node/router in the branch
+            double k = new Random().nextDouble();       // x (aka k) is a random # from 0-1
+            if (k < p){                                 // if x < p then,
+                pkt.setStart(branch[i]);                // write the router into pkt.start 
+                pkt.setDistance(0);             // and set pkt.distance to 0
+            }else{
+                if(pkt.getDistance() == 0){
+                    pkt.setEnd(branch[i]);              // write the router into pkt.end
+                }
+                pkt.setDistance(pkt.getDistance()+1);   // increment the distance
+            }
+            packets.add(pkt); // add every packet to master list of packets that have arrived at the victim
+        }
     }
 
-    public static void edge_path_reconstruction(){
+    public static void edge_path_reconstruction(ArrayList<Packet> packets){
 
     }
 
