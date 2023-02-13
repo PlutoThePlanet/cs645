@@ -97,9 +97,10 @@ public class Main {
         Tree tree = new Tree(root);
         for(int i=0; i<packets.size(); i++){        // for each packet w
             if(packets.get(i).getDistance() == 0){  // if pkt.distance = 0 then
-                // insert edge (pkt.start, v, 0) into G
+                Node node = new Node(packets.get(i).getNode());
+                tree.addChild(node);// insert edge (pkt.start, v, 0) into G
             }else{
-                // insert edge (w.start, w.end, w.distance) into G
+                // insert edge (pkt.start, w.end, w.distance) into G
             }
         }
         // remove any edge (x,y,d) with d != distance from x to v in G
