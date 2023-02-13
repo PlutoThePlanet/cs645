@@ -14,14 +14,10 @@ public class Main {
     static Integer branch5[] = {15, 16, 17, 18, 19};
 
     static ArrayList<Packet> packets = new ArrayList<Packet>(); // master list of packets that have arrived at the victim
+    static int num_pkts = 1000;
     
     static int x = 10; // 10, 100, 1000
     static double p = 0.1; // 0.2, 0.4, 0.5, 0.6, 0.8
-
-    static int num_pkts = 1000;
-    // int t = 1; // transmission rate
-    // double attack_t = t * x; // attacker transmission rate
-    //System.out.println("test");
 
     public static void main(String[] args){
         for(int i=0; i<num_pkts; i++){ // each branch is sending the same num of pkts through,
