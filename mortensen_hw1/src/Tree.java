@@ -11,4 +11,8 @@ public class Tree{
     public void addChild(Node node){
         children.add(node);
     }
+
+    public Node getRoot(){
+        return root;
+    }
 }

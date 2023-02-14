@@ -14,7 +14,7 @@ public class Main {
     static Integer branch5[] = {15, 16, 17, 18, 19};
 
     static ArrayList<Packet> packets = new ArrayList<Packet>(); // master list of packets that have arrived at the victim
-    static int num_pkts = 1000;
+    static int num_pkts = 10;
     
     static int x = 10; // 10, 100, 1000
     static double p = 0.1; // 0.2, 0.4, 0.5, 0.6, 0.8
@@ -31,8 +31,14 @@ public class Main {
             Packet pkt = new Packet();
             nodeSampling_marking(branch4, pkt, packets);
         }
-        node_path_reconstruction(packets);
-        // display and compare to desired branch (print just the first 5 nodes or something)
+        int successes = 0;
+        for(int i=0; i<100; i++){
+            boolean test = node_path_reconstruction(packets);
+            if(test){
+                successes++;
+            }
+        }
+        System.out.println(successes + " out of 100 nodeSampling tests were successful.");
         packets.clear(); // reset/clear all sent packets
         
         
@@ -60,7 +66,7 @@ public class Main {
         }
     }
 
-    public static void node_path_reconstruction(ArrayList<Packet> packets){
+    public static boolean node_path_reconstruction(ArrayList<Packet> packets){
         Map<Integer, Integer> nodeTbl = new HashMap<>();
         for(int i=0; i<packets.size(); i++){        // for each pkt from attacker
             int z = packets.get(i).getNode();       // pkt node
@@ -72,7 +78,25 @@ public class Main {
         }
         nodeTbl.remove(1001); // remove the unmarked routers
         Map<Integer, Integer> sortedNodeTbl = sortByValue(nodeTbl, false); // sort by descending order
-        System.out.println(sortedNodeTbl);
+        Set<Integer> keys = sortedNodeTbl.keySet(); // check is path was successfully found or not
+        String routers = "";
+        for(Integer key: keys) {
+            routers += key + " ";
+        }
+        String[] route = routers.split(" ");
+        String route_str = "";
+        String branch_str = "";
+        for(int i=0; i<5; i++){
+            route_str += route[i] + " ";
+        }
+        for(int i=branch4.length-1; i>=0; i--){
+            branch_str += branch4[i] + " ";
+        }
+        if(route_str.equals(branch_str)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
@@ -92,17 +116,34 @@ public class Main {
         }
     }
 
+    // Collections.sort(packets, new Comparator<Packet>(){
+    //     public Integer compare(Packet p1, Packet p2){
+    //         return p1.getDistance().compareTo(p2.getDistance());
+    //     }
+    // });
+
     public static void edge_path_reconstruction(ArrayList<Packet> packets){
         Node root = new Node();
         Tree tree = new Tree(root);
-        for(int i=0; i<packets.size(); i++){        // for each packet w
-            if(packets.get(i).getDistance() == 0){  // if pkt.distance = 0 then
-                Node node = new Node(packets.get(i).getNode());
-                tree.addChild(node);// insert edge (pkt.start, v, 0) into G
-            }else{
-                // insert edge (pkt.start, w.end, w.distance) into G
+
+        for(int i=0; i<packets.size(); i++){        // remove any "unmarked" packets
+            if(packets.get(i).getEnd() == 1001){
+                packets.remove(i);
             }
         }
+        // System.out.println(packets);
+        // for(int i=0; i<packets.size(); i++){        // sort packets by pkt.distance //////////////////////////////////
+        //     Collections.sort(packets.get(i).getDistance());
+        // }
+
+        // for(int i=0; i<packets.size(); i++){        // for each packet w
+        //     if(packets.get(i).getDistance() == 0){  // if pkt.distance = 0 then
+        //         Node node = new Node(packets.get(i).getNode());
+        //         tree.addChild(node);// insert edge (pkt.start, v, 0) into G
+        //     }else{
+        //         // insert edge (pkt.start, w.end, w.distance) into G
+        //     }
+        // }
         // remove any edge (x,y,d) with d != distance from x to v in G
         // get path
     }
