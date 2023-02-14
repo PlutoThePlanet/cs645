@@ -55,7 +55,7 @@ public class Main {
             edgeSampling_marking(branch4, pkt, packets);
         }
         edge_path_reconstruction(packets);
-    }
+    }///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void nodeSampling_marking(Integer branch[], Packet pkt, ArrayList<Packet> packets){
         for(int i=0; i<branch.length; i++){         // for each node/router in the branch
@@ -103,8 +103,7 @@ public class Main {
         }else{
             return false;
         }
-    }
-
+    }////////////////////////////////////////////////
 
     public static void edgeSampling_marking(Integer branch[], Packet pkt, ArrayList<Packet> packets){
         for(int i=0; i<branch.length; i++){             // for each node/router in the branch
@@ -121,12 +120,6 @@ public class Main {
             packets.add(pkt); // add every packet to master list of packets that have arrived at the victim
         }
     }
-
-    // Collections.sort(packets, new Comparator<Packet>(){
-    //     public Integer compare(Packet p1, Packet p2){
-    //         return p1.getDistance().compareTo(p2.getDistance());
-    //     }
-    // });
 
     public static void edge_path_reconstruction(ArrayList<Packet> packets){
         Node root = new Node();
