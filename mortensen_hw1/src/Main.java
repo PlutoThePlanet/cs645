@@ -14,34 +14,35 @@ public class Main {
     static Integer branch5[] = {15, 16, 17, 18, 19};
 
     static ArrayList<Packet> packets = new ArrayList<Packet>(); // master list of packets that have arrived at the victim
-    static int num_pkts = 10;
+    static int num_pkts = 1;
     
     static int x = 10; // 10, 100, 1000
-    static double p = 0.1; // 0.2, 0.4, 0.5, 0.6, 0.8
+    static double p = 0.2; // 0.2, 0.4, 0.5, 0.6, 0.8
 
     public static void main(String[] args){
-        for(int i=0; i<num_pkts; i++){ // each branch is sending the same num of pkts through,
-            Packet pkt = new Packet();
-            nodeSampling_marking(branch1, pkt, packets);
-            nodeSampling_marking(branch2, pkt, packets);
-            nodeSampling_marking(branch3, pkt, packets);
-            nodeSampling_marking(branch5, pkt, packets);
-        }
-        for(int i=0; i<num_pkts*x; i++){ // but the "attacker branch" will be sending a lot more pkts
-            Packet pkt = new Packet();
-            nodeSampling_marking(branch4, pkt, packets);
-        }
         int successes = 0;
-        for(int i=0; i<100; i++){
+        for(int j=0; j<100; j++){
+            for(int i=0; i<num_pkts; i++){ // each branch is sending the same num of pkts through,
+                Packet pkt = new Packet();
+                nodeSampling_marking(branch1, pkt, packets);
+                nodeSampling_marking(branch2, pkt, packets);
+                nodeSampling_marking(branch3, pkt, packets);
+                nodeSampling_marking(branch5, pkt, packets);
+            }
+            for(int i=0; i<num_pkts*x; i++){ // but the "attacker branch" will be sending a lot more pkts
+                Packet pkt = new Packet();
+                nodeSampling_marking(branch4, pkt, packets);
+            }
             boolean test = node_path_reconstruction(packets);
             if(test){
                 successes++;
             }
+            packets.clear(); // reset/clear all sent packets
         }
         System.out.println(successes + " out of 100 nodeSampling tests were successful.");
-        packets.clear(); // reset/clear all sent packets
         
-        
+
+
         for(int i=0; i<num_pkts; i++){ // each branch is sending the same num of pkts through,
             Packet pkt = new Packet();
             edgeSampling_marking(branch1, pkt, packets);
@@ -78,6 +79,7 @@ public class Main {
         }
         nodeTbl.remove(1001); // remove the unmarked routers
         Map<Integer, Integer> sortedNodeTbl = sortByValue(nodeTbl, false); // sort by descending order
+        //System.out.println(sortedNodeTbl);
         Set<Integer> keys = sortedNodeTbl.keySet(); // check is path was successfully found or not
         String routers = "";
         for(Integer key: keys) {
@@ -86,8 +88,12 @@ public class Main {
         String[] route = routers.split(" ");
         String route_str = "";
         String branch_str = "";
-        for(int i=0; i<5; i++){
-            route_str += route[i] + " ";
+        try{
+            for(int i=0; i<5; i++){
+                route_str += route[i] + " ";
+            }
+        }catch(Exception e){
+            return false;
         }
         for(int i=branch4.length-1; i>=0; i--){
             branch_str += branch4[i] + " ";
