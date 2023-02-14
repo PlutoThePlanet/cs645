@@ -16,7 +16,7 @@ public class Main {
     static ArrayList<Packet> packets = new ArrayList<Packet>(); // master list of packets that have arrived at the victim
     static int num_pkts = 1;
     
-    static int x = 10; // 10, 100, 1000
+    static int x = 1000; // 10, 100, 1000
     static double p = 0.2; // 0.2, 0.4, 0.5, 0.6, 0.8
 
     public static void main(String[] args){
