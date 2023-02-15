@@ -83,7 +83,7 @@ public class Main {
         for(int i=branch4.length-1; i>=0; i--){
             branch_str += branch4[i] + " ";
         }
-        // System.out.println("known attacker path: " + branch_str);
+        // System.out.println("\nknown attacker path: " + branch_str);
         // System.out.println("found attacker path: " + route_str);
         if(route_str.equals(branch_str)){
             return true;
