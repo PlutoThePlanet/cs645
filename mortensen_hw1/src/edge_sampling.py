@@ -1,4 +1,3 @@
-# from Packet import Packet
 import random
 
 network =  {1:  [2, 20],   # Directed acyclic graph adjacency list
@@ -42,7 +41,7 @@ class Packet:
 
 def edgeSampling_marking(branch, pkt, packets):
     i = 0
-    while i < len(branch):                        #  for each node/router in the branch
+    while i < len(branch):                          #  for each node/router in the branch
         k = random.uniform(0, 1)                    #  x (aka k) is a random # from 0-1
         if k < p:                                   #  if x < p then,
             pkt.start = branch[i]                   #  write the router into pkt.start 
@@ -52,7 +51,7 @@ def edgeSampling_marking(branch, pkt, packets):
                 pkt.end = branch[i]                 #  write the router into pkt.end
             pkt.distance = 0 # need to "mark" and begin at 0 in order to increment
             pkt.distance += 1                       #  increment the distance
-        packets.append(pkt)                            #  add every packet to master list of packets that have arrived at the victim
+        packets.append(pkt)                         #  add every packet to master list of packets that have arrived at the victim
         i += 1
 
 def edge_path_reconstruction(packets):
