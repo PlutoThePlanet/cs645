@@ -40,20 +40,7 @@ public class Main {
             packets.clear(); // reset/clear all sent packets
         }
         System.out.println(successes + " out of 100 nodeSampling tests were successful.");
-        
-        // for(int i=0; i<num_pkts; i++){ // each branch is sending the same num of pkts through,
-        //     Packet pkt = new Packet();
-        //     edgeSampling_marking(branch1, pkt, packets);
-        //     edgeSampling_marking(branch2, pkt, packets);
-        //     edgeSampling_marking(branch3, pkt, packets);
-        //     edgeSampling_marking(branch5, pkt, packets);
-        // }
-        // for(int i=0; i<num_pkts*x; i++){ // but the "attacker branch" will be sending a lot more pkts
-        //     Packet pkt = new Packet();
-        //     edgeSampling_marking(branch4, pkt, packets);
-        // }
-        // edge_path_reconstruction(packets);
-    }///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
 
     public static void nodeSampling_marking(Integer branch[], Packet pkt, ArrayList<Packet> packets){
         for(int i=0; i<branch.length; i++){         // for each node/router in the branch
@@ -75,9 +62,9 @@ public class Main {
                 nodeTbl.put(z, 1);            // else insert into nodeTbl
             }
         }
+
         nodeTbl.remove(1001); // remove the unmarked routers
         Map<Integer, Integer> sortedNodeTbl = sortByValue(nodeTbl, false); // sort by descending order
-        //System.out.println(sortedNodeTbl);
         Set<Integer> keys = sortedNodeTbl.keySet(); // check is path was successfully found or not
         String routers = "";
         for(Integer key: keys) {
@@ -96,58 +83,14 @@ public class Main {
         for(int i=branch4.length-1; i>=0; i--){
             branch_str += branch4[i] + " ";
         }
-
         // System.out.println("known attacker path: " + branch_str);
         // System.out.println("found attacker path: " + route_str);
-
         if(route_str.equals(branch_str)){
             return true;
         }else{
             return false;
         }
-    }////////////////////////////////////////////////
-
-    // public static void edgeSampling_marking(Integer branch[], Packet pkt, ArrayList<Packet> packets){
-    //     for(int i=0; i<branch.length; i++){             // for each node/router in the branch
-    //         double k = new Random().nextDouble();       // x (aka k) is a random # from 0-1
-    //         if (k < p){                                 // if x < p then,
-    //             pkt.setStart(branch[i]);                // write the router into pkt.start 
-    //             pkt.setDistance(0);             // and set pkt.distance to 0
-    //         }else{
-    //             if(pkt.getDistance() == 0){
-    //                 pkt.setEnd(branch[i]);              // write the router into pkt.end
-    //             }
-    //             pkt.setDistance(pkt.getDistance()+1);   // increment the distance
-    //         }
-    //         packets.add(pkt); // add every packet to master list of packets that have arrived at the victim
-    //     }
-    // }
-
-    // public static void edge_path_reconstruction(ArrayList<Packet> packets){
-    //     Node root = new Node();
-    //     Tree tree = new Tree(root);
-
-    //     for(int i=0; i<packets.size(); i++){        // remove any "unmarked" packets
-    //         if(packets.get(i).getEnd() == 1001){
-    //             packets.remove(i);
-    //         }
-    //     }
-    //     // System.out.println(packets);
-    //     // for(int i=0; i<packets.size(); i++){        // sort packets by pkt.distance //////////////////////////////////
-    //     //     Collections.sort(packets.get(i).getDistance());
-    //     // }
-
-    //     // for(int i=0; i<packets.size(); i++){        // for each packet w
-    //     //     if(packets.get(i).getDistance() == 0){  // if pkt.distance = 0 then
-    //     //         Node node = new Node(packets.get(i).getNode());
-    //     //         tree.addChild(node);// insert edge (pkt.start, v, 0) into G
-    //     //     }else{
-    //     //         // insert edge (pkt.start, w.end, w.distance) into G
-    //     //     }
-    //     // }
-    //     // remove any edge (x,y,d) with d != distance from x to v in G
-    //     // get path
-    // }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // from https://stackoverflow.com/questions/8119366/sorting-hashmap-by-values
