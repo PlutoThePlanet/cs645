@@ -111,13 +111,26 @@ def main():
 
         max_value = numpy.max(branches)
         attacker = branches.index(max_value) + 1
+        
         if attacker == 4:
             successes +=1
 
+        # toPop = branches.index(max_value)
+        # branches[toPop] = 0
+        # max_value2 = numpy.max(branches)
+        # attacker2 = branches.index(max_value2) + 1
+        # if attacker == 3 and attacker2 ==4:
+        #     successes +=1
+
         packets.clear()             # reset/clear all sent packets
         branches = [0, 0, 0, 0, 0]  # reset/clear all sent paths
-        # print('known attacker path: ' + str(numpy.array2string(numpy.flip(branch4), separator=", ")))
+        
+        # print('known attacker path: ' + str(numpy.array2string(numpy.flip(branch3), separator=", ")))
         # print('found attacker path: ' + str(final_paths[attacker-1]))
+        # print('other known attacker path: ' + str(numpy.array2string(numpy.flip(branch4), separator=", ")))
+        # print('other found attacker path: ' + str(final_paths[attacker2-1]))
+
+
     print(str(successes) + ' out of 100 edgeSampling tests were successful.')
 
 if __name__ == "__main__":

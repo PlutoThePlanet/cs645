@@ -71,6 +71,7 @@ public class Main {
             routers += key + " ";
         }
         String[] route = routers.split(" ");
+        //System.out.println(routers);
         String route_str = "";
         String branch_str = "";
         try{
