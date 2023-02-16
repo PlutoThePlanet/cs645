@@ -1,4 +1,5 @@
 import random
+import numpy
 
 network =  {1:  [2, 20],   # Directed acyclic graph adjacency list
             2:  [1, 5],
@@ -34,7 +35,7 @@ branches = [0, 0, 0, 0, 0] # tally of branch "weight"
 num_pkts = 1
 
 x = 10 #  10, 100, 1000
-p = 0.2  #  0.2, 0.4, 0.5, 0.6, 0.8
+p = 0.8  #  0.2, 0.4, 0.5, 0.6, 0.8
 
 class Packet:
     def __init__(self):
@@ -85,7 +86,7 @@ def depthFirst(graph, currentVertex, visited):
 
 
 def main():
-    global network, paths, final_paths
+    global network, paths, final_paths, packets, branches
     successes = 0
 
     depthFirst(network, 19, []) # find all possible linear paths within the network
@@ -106,14 +107,18 @@ def main():
             pkt = Packet()
             edgeSampling_marking(branch4, pkt)
 
-    edge_path_reconstruction()
-    # print(final_paths)
-    # print(branches)
+        edge_path_reconstruction()
 
-        # test = edge_path_reconstruction(packets)
-        # if test:
-        #     successes += 1
-        # packets.clear() # reset/clear all sent packets
+        max_value = numpy.max(branches)
+        attacker = branches.index(max_value) + 1
+        if attacker == 4:
+            successes +=1
+
+        packets.clear() # reset/clear all sent packets
+        branches = [0, 0, 0, 0, 0] # reset/clear all sent paths
+        # print('known attacker path: ' + str(numpy.array2string(numpy.flip(branch4), separator=", ")))
+        # print('found attacker path: ' + str(final_paths[attacker-1]))
+    print(str(successes) + ' out of 100 edgeSampling tests were successful.')
 
 if __name__ == "__main__":
     main()
