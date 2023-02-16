@@ -29,10 +29,11 @@ branch5 = [15, 16, 17, 18, 19]
 
 packets = [] #  master list of packets that have arrived at the victim
 paths = []  # all found full and partial network paths
-final_paths = []
-branches = [0, 0, 0, 0, 0] # tally of 
+final_paths = [] # all found full paths
+branches = [0, 0, 0, 0, 0] # tally of branch "weight"
 num_pkts = 1
-x = 1000 #  10, 100, 1000
+
+x = 10 #  10, 100, 1000
 p = 0.2  #  0.2, 0.4, 0.5, 0.6, 0.8
 
 class Packet:
@@ -42,7 +43,8 @@ class Packet:
         self.end = None
         self.distance = None
 
-def edgeSampling_marking(branch, pkt, packets):
+def edgeSampling_marking(branch, pkt):
+    global packets
     i = 0
     while i < len(branch):                          #  for each node/router in the branch
         k = random.uniform(0, 1)                    #  x (aka k) is a random # from 0-1
@@ -52,29 +54,26 @@ def edgeSampling_marking(branch, pkt, packets):
         else:
             if pkt.distance == 0:
                 pkt.end = branch[i]                 #  write the router into pkt.end
-            pkt.distance = 0 # need to "mark" and begin at 0 in order to increment
+            pkt.distance = 0                        # need to "mark" and begin at 0 in order to increment
             pkt.distance += 1                       #  increment the distance
         packets.append(pkt)                         #  add every packet to master list of packets that have arrived at the victim
         i += 1
 
-def path_check():
-    # for all possible linear paths
-        # if the pkt's start AND end exist in the path
-            # it "belongs" to this branch
-        # else
-            # it did not pass through this branch
-    pass
+def path_check(pkt):
+    global packets, final_paths, branches
+    i = 0
+    for path in final_paths: # for all possible linear paths
+        if pkt.start in path and pkt.end in path:
+            branches[i] += 1
+        i += 1
 
-def edge_path_reconstruction(packets):
+def edge_path_reconstruction():
+    global packets
     for pkt in packets:                 # remove all unmarked packets
         if pkt.distance == None:
+            print(pkt.distance)
             packets.remove(pkt)
-    
-    for pkt in packets:                 # for all packets
-        branch = path_check()                    # what path did it take?
-            # increment that path's tally
-    # the branch with the greatest tally (or top two) is the attacker
-    pass
+        path_check(pkt)                 # test the path they came from
 
 def depthFirst(graph, currentVertex, visited):
     visited.append(currentVertex)
@@ -94,24 +93,27 @@ def main():
         if len(branch) >= 5:
             final_paths.append(branch)
     final_paths.pop(1)
-    print(final_paths)
-
+    
     for number in range(100):
         for number in range(num_pkts):
             pkt = Packet()
-            edgeSampling_marking(branch1, pkt, packets)
-            edgeSampling_marking(branch2, pkt, packets)
-            edgeSampling_marking(branch3, pkt, packets)
-            edgeSampling_marking(branch5, pkt, packets)
+            edgeSampling_marking(branch1, pkt)
+            edgeSampling_marking(branch2, pkt)
+            edgeSampling_marking(branch3, pkt)
+            edgeSampling_marking(branch5, pkt)
 
         for number in range(num_pkts*x):
             pkt = Packet()
-            edgeSampling_marking(branch4, pkt, packets)
+            edgeSampling_marking(branch4, pkt)
 
-        test = edge_path_reconstruction(packets)
-        if test:
-            successes += 1
-        packets.clear() # reset/clear all sent packets
+    edge_path_reconstruction()
+    # print(final_paths)
+    # print(branches)
+
+        # test = edge_path_reconstruction(packets)
+        # if test:
+        #     successes += 1
+        # packets.clear() # reset/clear all sent packets
 
 if __name__ == "__main__":
     main()
