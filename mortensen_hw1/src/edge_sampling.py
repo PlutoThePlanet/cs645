@@ -35,7 +35,7 @@ branches = [0, 0, 0, 0, 0] # tally of branch "weight"
 num_pkts = 1
 
 x = 10 #  10, 100, 1000
-p = 0.8  #  0.2, 0.4, 0.5, 0.6, 0.8
+p = 0.2  #  0.2, 0.4, 0.5, 0.6, 0.8
 
 class Packet:
     def __init__(self):
@@ -114,8 +114,8 @@ def main():
         if attacker == 4:
             successes +=1
 
-        packets.clear() # reset/clear all sent packets
-        branches = [0, 0, 0, 0, 0] # reset/clear all sent paths
+        packets.clear()             # reset/clear all sent packets
+        branches = [0, 0, 0, 0, 0]  # reset/clear all sent paths
         # print('known attacker path: ' + str(numpy.array2string(numpy.flip(branch4), separator=", ")))
         # print('found attacker path: ' + str(final_paths[attacker-1]))
     print(str(successes) + ' out of 100 edgeSampling tests were successful.')
